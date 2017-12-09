@@ -21,15 +21,15 @@ y_test = np_utils.to_categorical(y_test)
 num_classes = y_test.shape[1]
 
 model = model_gen.baseline_model()
-model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=2, batch_size=200, verbose=2)
+
+model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=10, batch_size=200, verbose=2)
+print('\n\nModel Weights and Biases calculated\n\n')
+
 scores = model.evaluate(X_test, y_test, verbose=0)
-print("\n\naccuracy = " + str(scores[1]*100) + "%\n\n")
+print("\n\nAccuracy Test data = " + str(scores[1]*100) + "%\n\n")
 
 model.save_weights('./models_generated/model.hdf5')
 with open('./models_generated/model.json', 'w') as f:
     f.write(model.to_json())
 print("Model saved on Disk!\n\n")
 print("\n\n----------------------------------------------\n\n")
-
-
-

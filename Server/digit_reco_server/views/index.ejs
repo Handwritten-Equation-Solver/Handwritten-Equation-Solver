@@ -7,5 +7,11 @@
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
+
+    <form method="post" enctype="multipart/form-data" action="/imgupload">
+      <input type="file" name="digitimage">
+      <input type="submit" value="Upload Image">
+    </form>
+
   </body>
 </html>

@@ -17,6 +17,7 @@
 - Kears must be installed (with TensorFlow backend)
 - Nodejs must be installed
     - Run `npm init` in `Server/digit_reco_server` to install `keras-js` as well
+- h5py must be installed
 - Android studio must be installed
 
 ## Server
