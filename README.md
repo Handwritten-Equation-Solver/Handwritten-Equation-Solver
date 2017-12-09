@@ -2,7 +2,7 @@
 
 ## ToDo
 
-- [ ] Make a Server for Digit Recognition
+- [x] Make a Server for Digit Recognition
 - [ ] Make a client App for Digit Recognition
 
 ## Technologies/Frameworks Used
