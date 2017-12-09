@@ -2,6 +2,7 @@ Resources/
 __pycache__/
 models_generated/
 Utilities/Images/
+Server/digit_reco_server/Images
 
 
 

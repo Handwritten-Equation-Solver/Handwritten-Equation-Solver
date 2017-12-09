@@ -1,8 +1,11 @@
 var express = require('express');
 var router = express.Router();
+var path = require('path');
 var multer = require('multer');
 var uploader = multer({dest : './Images'});
 var fs = require('fs');
+
+var predictor = require('../predictor/use_keras_model');
 
 /* GET home page. */
 router.post('/', uploader.single('digitimage'), function(req, res, next) {
@@ -10,11 +13,9 @@ router.post('/', uploader.single('digitimage'), function(req, res, next) {
     var target_path = './Images/' + req.file.originalname;
 
     fs.rename(temp_path, target_path, function(err){
-        if(err){
-            res.send('Error');
-            console.log(err);
-        }
-        else res.send('Uploaded Successfully');
+        predictor(target_path, function(result){
+            res.send(result.toString());
+        });
     });
 });
 
