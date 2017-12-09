@@ -14,7 +14,7 @@ router.post('/', uploader.single('digitimage'), function(req, res, next) {
 
     fs.rename(temp_path, target_path, function(err){
         predictor(target_path, function(result){
-            res.send(result.toString());
+            res.send(result);
         });
     });
 });

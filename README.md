@@ -77,6 +77,13 @@ This route should be used by any client application that uses this server.<br>
 ### Response
 The predicted digit
 
+## Changing/Updating Keras Model
+To change or update the model used for prediction, ideally only the following files must be changed :
+- `data_gen.py` and `model_gen.py` in `Server/digit_reco_server/keras_model`
+- The function `interpret_result()` in `Server/digit_reco_server/predictor/use_keras_model.js`
+<br><br>
+After making the required changes, the model must be compiled and saved as described above
+
 ## Client
 
 ToDo
