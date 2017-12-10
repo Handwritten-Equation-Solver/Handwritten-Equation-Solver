@@ -31,6 +31,8 @@ ToDo
 - h5py - To enable storing models on disk
 - matplotlib
 - numpy
+
+
 (The last three can be installed using pip)
 
 ## Server
