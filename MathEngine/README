@@ -1,0 +1,8 @@
+Pre-requisities:
+1. Firefox Browser
+2. Geckodriver for Firefox
+
+To test the API:
+  $ python test.py <equation>
+
+Solution is saved as an image to the current directory.

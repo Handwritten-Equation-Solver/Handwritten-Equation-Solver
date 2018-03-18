@@ -32,6 +32,9 @@ ToDo
 - matplotlib
 - numpy
 
+
+(The last three can be installed using pip)
+
 ## Server
 
 The server is built on Nodejs. The Multi-layer perceptron model is built using Keras.
@@ -39,8 +42,9 @@ The server is built on Nodejs. The Multi-layer perceptron model is built using K
 ### 1. Build the model using Keras
 ```
 cd Server/digit_reco_server/keras_model
-python data_gen.py
-python encoder.py models_generated/model.hdf5
+mkdir models_generated
+python3 data_gen.py
+python3 encoder.py models_generated/model.hdf5
 ```
 
 Doing this will :
