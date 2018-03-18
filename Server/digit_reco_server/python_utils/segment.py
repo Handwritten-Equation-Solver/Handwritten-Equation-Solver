@@ -4,6 +4,7 @@ import os.path
 import math
 import sys
 from sympySolver import solveIt
+import json
 
 # from preprocessor import process_image_for_ocr
 from predict import predict_image
@@ -160,9 +161,10 @@ def img_segment(file):
                 final_eq += val
         i = i + 1
 
-    print(predicted_list)
-    print(final_eq)
-    print(solveIt(final_eq))
+    result = {}
+    result["solution"] = solveIt(final_eq)
+    result["equation"] = final_eq
+    print(json.dumps(result))
     sys.stdout.flush()
 
 def dfs(a,b):

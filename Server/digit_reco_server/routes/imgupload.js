@@ -19,9 +19,7 @@ router.post('/', uploader.single('digitimage'), function(req, res, next) {
         var segmentProcess = spawn(MY_ANACONDA_ENV, [path.resolve("./python_utils/segment.py"), path.resolve(target_path)]);
         segmentProcess.stdout.on('data', function(data){
             console.log(data.toString());
-
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({solution: data.toString()}));
+            res.send(data.toString());
         });
         segmentProcess.stderr.on('data', function(data){
             console.log(data.toString());
