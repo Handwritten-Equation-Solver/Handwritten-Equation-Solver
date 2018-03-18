@@ -29,6 +29,7 @@ scores = model.evaluate(X_test, y_test, verbose=0)
 print("\n\nAccuracy Test data = " + str(scores[1]*100) + "%\n\n")
 
 model.save_weights('./models_generated/model.hdf5')
+model.save('./models_generated/full_model.hdf5')
 with open('./models_generated/model.json', 'w') as f:
     f.write(model.to_json())
 print("Model saved on Disk!\n\n")
