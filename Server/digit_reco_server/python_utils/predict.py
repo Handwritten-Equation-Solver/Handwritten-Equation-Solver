@@ -2,7 +2,7 @@ from keras.models import load_model
 import cv2
 import os
 import numpy as np
-
+from PIL import Image
 from keras import backend as K
 from keras.models import Sequential
 from keras.layers import Input, Dropout, Flatten, Conv2D, MaxPooling2D, Dense, Activation
@@ -55,22 +55,26 @@ def predict_image(imgPath, imageNumber):
     model = mathsymbol()
     model.load_weights(os.path.abspath('./python_utils/full_model.h5'))
 
+    img = Image.open(imgPath)
+    x, y = img.size
+    # imgTemp = Image.new("RGB", ( (3*max(x,y))//2, (3*max(x,y))//2), (255,255,255))
+    # imgTemp.paste(img, (((3*max(x,y))//2-x)//2,((3*max(x,y))//2-y)//2))
+    # imgTemp.save(imgPath)
     img = cv2.imread(imgPath)
     img = cv2.resize(img, (45,45))
     img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-    img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 115, 1)
+    # img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 115, 1)
 
-    img = cv2.bitwise_not(img)
-    img = skeletonize(img)
-    img = cv2.bitwise_not(img)
+    # img = cv2.bitwise_not(img)
+    # img = skeletonize(img)
+    # img = cv2.bitwise_not(img)
 
     cv2.imwrite('./Images/final/final_'+str(imageNumber)+'.jpg',img)
     img = cv2.imread('./Images/final/final_'+str(imageNumber)+'.jpg')
 
     img = np.reshape(img, (1,45,45,3))
     prediction = model.predict(img)
-    file = open(os.path.abspath('./python_utils/mapping.txt'),'rb')
-    L = pickle.load(file)
+    L = ['(', ')', '+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '=', 'a', 'alpha', 'b', 'beta', 'c', 'e', 'i', 'j', 'k', 'pi', 'x', 'y', 'z']
     ans = L[np.argmax(prediction)]
 
     return ans
