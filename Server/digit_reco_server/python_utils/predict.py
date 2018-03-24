@@ -29,50 +29,59 @@ def mathsymbol():
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model
 
-def skeletonize(img):
-    size = np.size(img)
-    skel = np.zeros(img.shape,np.uint8)
+# def skeletonize(img):
+#     size = np.size(img)
+#     skel = np.zeros(img.shape,np.uint8)
 
-    ret,img = cv2.threshold(img,127,255,0)
-    element = cv2.getStructuringElement(cv2.MORPH_CROSS,(3,3))
-    done = False
+#     ret,img = cv2.threshold(img,127,255,0)
+#     element = cv2.getStructuringElement(cv2.MORPH_CROSS,(3,3))
+#     done = False
 
-    while( not done):
-        eroded = cv2.erode(img,element)
-        temp = cv2.dilate(eroded,element)
-        temp = cv2.subtract(img,temp)
-        skel = cv2.bitwise_or(skel,temp)
-        img = eroded.copy()
+#     while( not done):
+#         eroded = cv2.erode(img,element)
+#         temp = cv2.dilate(eroded,element)
+#         temp = cv2.subtract(img,temp)
+#         skel = cv2.bitwise_or(skel,temp)
+#         img = eroded.copy()
 
-        zeros = size - cv2.countNonZero(img)
-        if zeros==size:
-            done = True
+#         zeros = size - cv2.countNonZero(img)
+#         if zeros==size:
+#             done = True
 
-    return skel
+#     return skel
 
 def predict_image(imgPath, imageNumber):
     K.clear_session()
     model = mathsymbol()
     model.load_weights(os.path.abspath('./python_utils/full_model.h5'))
 
-    img = Image.open(imgPath)
-    x, y = img.size
+    # img = Image.open(imgPath)
+    # print("Path "+imgPath)
+    # print("Shape "+str(img.shape))
+    # x, y = img.size
+    # print("x,y "+ str(x) + str(y))
     # imgTemp = Image.new("RGB", ( (3*max(x,y))//2, (3*max(x,y))//2), (255,255,255))
     # imgTemp.paste(img, (((3*max(x,y))//2-x)//2,((3*max(x,y))//2-y)//2))
     # imgTemp.save(imgPath)
     img = cv2.imread(imgPath)
+    # print("Shape r "+str(img.shape))
+    
     img = cv2.resize(img, (45,45))
-    img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+    # print("Shape resize "+str(img.shape))
+    
+    # img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     # img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 115, 1)
 
     # img = cv2.bitwise_not(img)
     # img = skeletonize(img)
     # img = cv2.bitwise_not(img)
-
+    # print("Shape "+str(img.shape))
+    
     cv2.imwrite('./Images/final/final_'+str(imageNumber)+'.jpg',img)
-    img = cv2.imread('./Images/final/final_'+str(imageNumber)+'.jpg')
-
+    # img = cv2.imread('./Images/final/final_'+str(imageNumber)+'.jpg')
+    
     img = np.reshape(img, (1,45,45,3))
+
     prediction = model.predict(img)
     L = ['(', ')', '+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '=', 'a', 'alpha', 'b', 'beta', 'c', 'e', 'i', 'j', 'k', 'pi', 'x', 'y', 'z']
     ans = L[np.argmax(prediction)]

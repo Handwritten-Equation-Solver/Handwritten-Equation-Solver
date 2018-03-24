@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Digit Recognition Server' });
+  res.render('index', { title: 'Handwritten Equation Solver' });
 });
 
 module.exports = router;

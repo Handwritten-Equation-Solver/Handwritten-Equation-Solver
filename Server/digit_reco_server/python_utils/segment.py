@@ -14,12 +14,28 @@ ymin,ymax,xmax,xmin = 0,0,0,0
 xminCrop, yminCrop = 100000, 100000
 xmaxCrop, ymaxCrop = 0, 0
 
+
+
+def crop_img(img, scale=1.0):
+    center_x, center_y = img.shape[1] / 2, img.shape[0] / 2
+    width_scaled, height_scaled = img.shape[1] * scale, img.shape[0] * scale
+    # left_x, right_x = center_x - width_scaled / 2, center_x + width_scaled / 2
+    left_x, right_x = 0, 2 * center_x
+    # top_y, bottom_y = center_y - height_scaled / 2, center_y + height_scaled / 2
+    top_y, bottom_y = 0, center_y + height_scaled / 2
+    img_cropped = img[int(top_y):int(bottom_y), int(left_x):int(right_x)]
+    return img_cropped
+    
 def img_segment(file):
 
     global ymax,ymin,xmax,xmin
 
     path=file
     im = cv2.imread(path)
+
+    # Crop top and bottom parts
+    im = crop_img(im, 0.75)
+    
     # im = process_image_for_ocr(path)
     # cv2.imwrite('./Images/preprocessed.jpg',im)
     im = cv2.fastNlMeansDenoisingColored(im,None,10,10,7,21)
@@ -149,15 +165,24 @@ def img_segment(file):
         elif val == '(' or val == ')' or val == '+' or val == '-':
             if final_eq[-1] == '*':
                 final_eq = final_eq[:-1]
+            if val == '(' and len(final_eq) != 1 and not(final_eq[-1] == '(' or final_eq[-1] == '+' or final_eq[-1] == '-'):
+                final_eq += '*'
             final_eq += val
-        elif val == "pi" or val == 'e':
-            final_eq += val
+            if val == ')' and not(i == len(predicted_list)-1 or predicted_list[i+1] == ')' or predicted_list[i+1] == '+' or predicted_list[i+1] == '-'):
+                if predicted_list[i+1] >= '0' and predicted_list[i+1] <= '9':
+                    final_eq += '*' 
+                final_eq += '*'
+        elif val == "pi" or val == 'e' or val == 'i':
+            if(val == 'e' or val == 'i'):
+                final_eq += val.upper()
+            else:
+                final_eq += val
             final_eq += '*'
         else:
             if predicted_list[i+1] >= '0' and predicted_list[i+1] <= '9':
                 final_eq += val
                 final_eq += "**"
-            else :
+            else:
                 final_eq += val
         i = i + 1
 
@@ -165,6 +190,7 @@ def img_segment(file):
     result["solution"] = solveIt(final_eq)
     result["equation"] = final_eq
     print(json.dumps(result))
+    print(predicted_list)
     sys.stdout.flush()
 
 def dfs(a,b):
