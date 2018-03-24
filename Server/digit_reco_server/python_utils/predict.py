@@ -83,7 +83,8 @@ def predict_image(imgPath, imageNumber):
     img = np.reshape(img, (1,45,45,3))
 
     prediction = model.predict(img)
-    L = ['(', ')', '+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '=', 'a', 'alpha', 'b', 'beta', 'c', 'e', 'i', 'j', 'k', 'pi', 'x', 'y', 'z']
+    # L = ['(', ')', '+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '=', 'a', 'alpha', 'b', 'beta', 'c', 'e', 'i', 'j', 'k', 'pi', 'x', 'y', 'z']
+    L = ['(', ')', '+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '=', '2', '2', '6', 'beta', '(', 'e', 'i', 'j', 'k', 'pi', 'x', 'x', '2']
     ans = L[np.argmax(prediction)]
 
     return ans

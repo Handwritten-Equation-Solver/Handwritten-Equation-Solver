@@ -34,7 +34,7 @@ def img_segment(file):
     im = cv2.imread(path)
 
     # Crop top and bottom parts
-    im = crop_img(im, 0.75)
+    im = crop_img(im, 0.40)#top=0,bottom=30%
     
     # im = process_image_for_ocr(path)
     # cv2.imwrite('./Images/preprocessed.jpg',im)
