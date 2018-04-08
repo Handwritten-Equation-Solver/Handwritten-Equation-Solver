@@ -19,3 +19,10 @@ def solveSystem(equations):
         return result
     except:
         return result
+    
+def calculate(expression):
+    try:
+        result = str(parse_expr(expression))
+        return result
+    except:
+        return result
