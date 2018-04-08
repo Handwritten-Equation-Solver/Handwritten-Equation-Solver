@@ -8,6 +8,10 @@ var bodyParser = require('body-parser');
 var index_route = require('./routes/index');
 var users_route = require('./routes/users');
 var imgupload_route = require('./routes/imgupload');
+var graphplot_route = require('./routes/graphplot');
+var seqsolve_route = require('./routes/seqsolve');
+var simultsolve_route = require('./routes/simultsolve');
+var eqnsolve_route = require('./routes/eqnsolve');
 
 var app = express();
 
@@ -26,6 +30,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index_route);
 app.use('/users', users_route);
 app.use('/imgupload', imgupload_route);
+app.use('/graphplot', graphplot_route);
+app.use('/seqsolve', seqsolve_route);
+app.use('/simultsolve', simultsolve_route);
+app.use('/eqnsolve', eqnsolve_route);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

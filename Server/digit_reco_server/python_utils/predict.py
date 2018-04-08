@@ -25,7 +25,7 @@ def mathsymbol():
     model.add(Dropout(0.2))
     model.add(Flatten())
     model.add(Dense(128, activation='relu'))
-    model.add(Dense(28, activation='softmax'))
+    model.add(Dense(26, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model
 
@@ -53,7 +53,7 @@ def mathsymbol():
 def predict_image(imgPath, imageNumber):
     K.clear_session()
     model = mathsymbol()
-    model.load_weights(os.path.abspath('./python_utils/full_model.h5'))
+    model.load_weights(os.path.abspath('./python_utils/HESWeightsFinal.h5'))
 
     # img = Image.open(imgPath)
     # print("Path "+imgPath)
@@ -65,10 +65,10 @@ def predict_image(imgPath, imageNumber):
     # imgTemp.save(imgPath)
     img = cv2.imread(imgPath)
     # print("Shape r "+str(img.shape))
-    
+
     img = cv2.resize(img, (45,45))
     # print("Shape resize "+str(img.shape))
-    
+
     # img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     # img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 115, 1)
 
@@ -76,10 +76,10 @@ def predict_image(imgPath, imageNumber):
     # img = skeletonize(img)
     # img = cv2.bitwise_not(img)
     # print("Shape "+str(img.shape))
-    
+
     cv2.imwrite('./Images/final/final_'+str(imageNumber)+'.jpg',img)
     # img = cv2.imread('./Images/final/final_'+str(imageNumber)+'.jpg')
-    
+
     img = np.reshape(img, (1,45,45,3))
 
     prediction = model.predict(img)
@@ -88,4 +88,3 @@ def predict_image(imgPath, imageNumber):
     ans = L[np.argmax(prediction)]
 
     return ans
-
