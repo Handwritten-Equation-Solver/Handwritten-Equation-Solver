@@ -13,7 +13,8 @@ def solveSystem(equations):
     parsed_equations = []
     for equation in equations:
         parsed_equations.append(parse_expr(equation))
-    result = {}
-    result["solution"] = solve(parsed_equations)
-    result["equation"] = parsed_equations
-    return result
+    try:
+        result = str(solve(parsed_equations))
+        return result
+    except:
+        return result
