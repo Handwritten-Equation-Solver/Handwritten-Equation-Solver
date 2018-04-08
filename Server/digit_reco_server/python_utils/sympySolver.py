@@ -1,5 +1,6 @@
 from sympy import *
 from sympy.abc import *
+from sympy.parsing.sympy_parser import parse_expr
 
 def solveIt(equation):
     solution = "Error occured while Solving Equation"
